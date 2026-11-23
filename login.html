@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Log in to your GlucoGuard-T1D account to view glucose trends, meals, and your hypoglycemia risk score." />
+<meta name="theme-color" content="#2563eb" />
+<title>Log in — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+<noscript>GlucoGuard-T1D requires JavaScript. Please enable it in your browser.</noscript>
+<div class="auth-page">
+  <div class="auth-visual">
+    <div class="brand"><span class="brand-mark" style="background:rgba(255,255,255,0.15)">GG</span> GlucoGuard-T1D</div>
+    <div>
+      <h1>Welcome back.</h1>
+      <p>Log in to see your glucose trends, meals, and today's hypoglycemia risk.</p>
+    </div>
+    <p style="font-size:12.5px; opacity:.6;">Decision-support prototype — not a certified medical device.</p>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <h2>Log in</h2>
+      <p class="sub">Enter your credentials to access your dashboard.</p>
+
+      <form id="login-form" novalidate>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" required autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <div style="position:relative;">
+            <input type="password" id="login-password" required autocomplete="current-password" placeholder="Your password" style="padding-right:44px;" />
+            <button type="button" id="toggle-login-password" aria-label="Show password"
+              style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--color-text-muted);">
+              <svg id="toggle-eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div id="login-error" class="field-error"></div>
+        <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      </form>
+
+      <p style="text-align:center; margin-top:14px;">
+        <a href="#" id="forgot-password-link" style="color:var(--color-primary); font-weight:600; font-size:13.5px;">Forgot password?</a>
+      </p>
+      <div class="auth-footer-link">Don't have an account? <a href="register.html">Create one</a></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { loginUser, resetPassword, guardPage } from "./js/auth.js";
+  import { checkFirebaseAvailability } from "./js/app.js";
+  import { showToast, setButtonLoading, showInlineError, clearInlineError, friendlyAuthError } from "./js/ui.js";
+
+  guardPage(() => {}); // redirect to dashboard if already logged in
+
+  const form = document.getElementById("login-form");
+  const errorEl = document.getElementById("login-error");
+
+  // Show/hide password toggle
+  document.getElementById("toggle-login-password").addEventListener("click", () => {
+    const inp = document.getElementById("login-password");
+    inp.type = inp.type === "password" ? "text" : "password";
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearInlineError(errorEl);
+    if (!checkFirebaseAvailability()) return;
+
+    const email = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+    const btn = form.querySelector("button[type=submit]");
+
+    setButtonLoading(btn, true, "Logging in…");
+    try {
+      await loginUser({ email, password });
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      console.error(err);
+      showInlineError(errorEl, friendlyAuthError(err));
+    } finally {
+      setButtonLoading(btn, false);
+    }
+  });
+
+  document.getElementById("forgot-password-link").addEventListener("click", async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value.trim();
+    if (!email) { showToast("Enter your email above first, then click Forgot password.", "error"); return; }
+    try {
+      await resetPassword(email);
+      showToast("Password reset email sent.", "success");
+    } catch (err) {
+      showToast(friendlyAuthError(err), "error");
+    }
+  });
+</script>
+</body>
+</html>

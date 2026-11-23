@@ -1,0 +1,95 @@
+/* css/responsive.css — navigation shell + breakpoints */
+
+/* ------------------------------------ Sidenav (desktop) ------------------------------------ */
+.sidenav {
+  width: var(--nav-width);
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-border);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 16px;
+}
+.sidenav-brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 24px; }
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 11px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-teal));
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px; font-family: var(--font-display);
+}
+.brand-text { font-family: var(--font-display); font-weight: 800; font-size: 16px; }
+.brand-accent { color: var(--color-primary); }
+
+.sidenav-items { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.sidenav .nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 12px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: 14px; color: var(--color-text-muted);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.sidenav .nav-item:hover { background: var(--color-surface-alt); }
+.sidenav .nav-item.nav-active { background: var(--color-primary-light); color: var(--color-primary-dark); }
+.nav-icon svg { width: 19px; height: 19px; }
+
+.sidenav-logout {
+  display: flex; align-items: center; gap: 10px;
+  background: none; border: none; color: var(--color-text-soft);
+  font-weight: 600; font-size: 13.5px; padding: 11px 12px; border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.sidenav-logout:hover { background: var(--color-danger-light); color: var(--color-danger); }
+
+/* ------------------------------------- Bottom nav (mobile) --------------------------------- */
+.bottomnav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: var(--bottomnav-height);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  /* Subtle elevation to lift the nav above page content */
+  box-shadow: 0 -1px 8px rgba(16, 24, 40, 0.07);
+  justify-content: space-around;
+  align-items: center;
+  z-index: 500;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottomnav .nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  font-size: 10.5px; font-weight: 600; color: var(--color-text-soft);
+  padding: 6px 8px;
+  transition: color var(--transition-fast);
+}
+.bottomnav .nav-item.nav-active { color: var(--color-primary); }
+.bottomnav .nav-icon svg { width: 21px; height: 21px; }
+
+@media (max-width: 900px) {
+  .sidenav { display: none; }
+  .bottomnav { display: flex; }
+  .app-shell { flex-direction: column; }
+}
+
+/* ------------------------------------- General responsive tweaks --------------------------- */
+@media (max-width: 620px) {
+  .field-row { grid-template-columns: 1fr; }
+  .landing-hero-content h1 { font-size: 34px; }
+  .landing-hero-content .lead { font-size: 15.5px; }
+}
+
+/* ------------------------------------- Reduced motion ------------------------- */
+/*
+ * Respect the user's operating-system preference to minimise motion.
+ * All CSS transitions and animations are disabled so the UI does not
+ * cause discomfort for users with vestibular or motion-sensitivity conditions.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

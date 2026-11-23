@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Log your glucose readings and insulin doses in GlucoGuard-T1D." />
+<meta name="theme-color" content="#2563eb" />
+<title>Add — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+<noscript>GlucoGuard-T1D requires JavaScript. Please enable it in your browser.</noscript>
+<div class="app-shell">
+  <div id="app-nav"></div>
+  <main class="app-main">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">Quick Add</span>
+        <h1>Log Glucose or Insulin</h1>
+      </div>
+      <a href="dashboard.html" class="btn btn-secondary btn-small">← Back to Dashboard</a>
+    </div>
+
+    <div class="tab-row">
+      <button class="tab-btn tab-active" data-add-tab="glucose" type="button">Glucose</button>
+      <button class="tab-btn" data-add-tab="insulin" type="button">Insulin</button>
+    </div>
+
+    <div class="card" style="max-width:520px;">
+      <div class="tab-panel panel-active" data-add-panel="glucose">
+        <form id="glucose-form" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="glucose-value">Glucose value</label>
+              <input type="number" step="0.1" id="glucose-value" required placeholder="e.g. 95" />
+              <div class="field-error" id="glucose-value-error"></div>
+            </div>
+            <div class="field">
+              <label for="glucose-unit">Unit</label>
+              <select id="glucose-unit">
+                <option value="mg/dL">mg/dL</option>
+                <option value="mmol/L">mmol/L</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="glucose-context">Context</label>
+            <select id="glucose-context">
+              <option value="fasting">Fasting</option>
+              <option value="before meal">Before meal</option>
+              <option value="after meal">After meal</option>
+              <option value="bedtime">Bedtime</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="glucose-timestamp">Time (leave blank for now)</label>
+            <input type="datetime-local" id="glucose-timestamp" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Save Glucose Reading</button>
+        </form>
+      </div>
+
+      <div class="tab-panel" data-add-panel="insulin">
+        <form id="insulin-form" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="insulin-type">Insulin type</label>
+              <select id="insulin-type">
+                <option value="Rapid-acting">Rapid-acting</option>
+                <option value="Long-acting">Long-acting</option>
+                <option value="Mixed">Mixed</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="insulin-dose">Dose (units)</label>
+              <input type="number" step="0.5" id="insulin-dose" required placeholder="e.g. 4" />
+              <div class="field-error" id="insulin-dose-error"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="insulin-meal">Meal association</label>
+            <select id="insulin-meal">
+              <option value="">None</option>
+              <option value="breakfast">Breakfast</option>
+              <option value="lunch">Lunch</option>
+              <option value="dinner">Dinner</option>
+              <option value="snack">Snack</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="insulin-notes">Notes</label>
+            <textarea id="insulin-notes" rows="2" placeholder="Optional notes…"></textarea>
+          </div>
+          <div class="field">
+            <label for="insulin-timestamp">Time (leave blank for now)</label>
+            <input type="datetime-local" id="insulin-timestamp" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Save Insulin Dose</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="module" src="js/add.js"></script>
+<script>
+  // Pre-select the tab from ?tab=insulin if the dashboard linked here directly
+  const params = new URLSearchParams(window.location.search);
+  const tab = params.get("tab");
+  if (tab === "insulin") {
+    window.addEventListener("DOMContentLoaded", () => {
+      const btn = document.querySelector('[data-add-tab="insulin"]');
+      if (btn) btn.click();
+    });
+  }
+</script>
+</body>
+</html>

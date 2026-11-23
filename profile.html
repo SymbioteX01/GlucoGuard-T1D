@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Manage your GlucoGuard-T1D profile and caregiver settings." />
+<title>Profile — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+<noscript>
+  <div style="padding:16px; background:#fff3cd; border:1px solid #ffc107; text-align:center; font-family:sans-serif;">
+    ⚠️ GlucoGuard-T1D requires JavaScript to run. Please enable JavaScript in your browser settings.
+  </div>
+</noscript>
+<div class="app-shell">
+  <div id="app-nav"></div>
+  <main class="app-main">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">Profile</span>
+        <h1>Your Profile</h1>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">Account</div>
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:16px;">
+          <div id="profile-avatar" style="width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,var(--color-primary),var(--color-teal)); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:20px; font-weight:800; color:white; flex-shrink:0;">?</div>
+          <div id="profile-stats" style="font-size:12.5px; color:var(--color-text-muted);"></div>
+        </div>
+        <form id="profile-form" novalidate>
+          <div class="field">
+            <label>Email</label>
+            <input type="text" id="profile-email" disabled />
+          </div>
+          <div class="field">
+            <label for="profile-name-input">Name</label>
+            <input type="text" id="profile-name-input" />
+          </div>
+          <div class="field">
+            <label for="profile-age-input">Age (optional)</label>
+            <input type="number" id="profile-age-input" min="1" max="120" />
+          </div>
+          <button type="submit" class="btn btn-primary">Save Profile</button>
+        </form>
+        <div class="divider"></div>
+        <button id="profile-logout-btn" class="btn btn-danger-outline btn-block" type="button">Log out</button>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Caregiver</div>
+        <p class="muted" style="margin-bottom:16px;">Optional — used for notifications and emergency context.</p>
+        <form id="caregiver-form" novalidate>
+          <div class="field">
+            <label for="caregiver-name-input">Caregiver name</label>
+            <input type="text" id="caregiver-name-input" />
+          </div>
+          <div class="field">
+            <label for="caregiver-phone-input">Caregiver phone</label>
+            <input type="tel" id="caregiver-phone-input" />
+          </div>
+          <div class="field">
+            <label for="caregiver-notify-select">Notification preference</label>
+            <select id="caregiver-notify-select">
+              <option value="app">In-app only</option>
+              <option value="sms">SMS (if configured)</option>
+              <option value="none">None</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Caregiver Info</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="module" src="js/profile.js"></script>
+</body>
+</html>

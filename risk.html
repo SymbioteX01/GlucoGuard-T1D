@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="View your hypoglycemia risk score and contributing factors in GlucoGuard-T1D." />
+<title>Risk — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+<noscript>
+  <div style="padding:16px; background:#fff3cd; border:1px solid #ffc107; text-align:center; font-family:sans-serif;">
+    ⚠️ GlucoGuard-T1D requires JavaScript to run. Please enable JavaScript in your browser settings.
+  </div>
+</noscript>
+<div class="app-shell">
+  <div id="app-nav"></div>
+  <main class="app-main">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">Risk</span>
+        <h1>Hypoglycemia Risk</h1>
+        <p>A transparent, explainable estimate — this is decision support, not a diagnosis.</p>
+      </div>
+    </div>
+
+    <div id="risk-page-warning" class="high-risk-warning" style="display:none;">
+      <span style="font-size:22px;">⚠️</span>
+      <div>
+        <strong>HIGH RISK DETECTED</strong>
+        Please verify your glucose reading and follow your personal diabetes care plan.
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-bottom:20px;">
+      <div class="card" style="display:flex; flex-direction:column; gap:10px; align-items:flex-start;">
+        <span class="risk-badge risk-low" id="risk-page-badge">—</span>
+        <div style="font-family:var(--font-display); font-size:34px; font-weight:800;" id="risk-page-score">— / 100</div>
+        <div class="muted">Last updated: <span id="risk-page-timestamp">—</span></div>
+        <div class="risk-gauge-wrap" style="margin-top:12px;">
+          <div class="risk-gauge-bar" id="risk-gauge-bar" style="width:0%;"></div>
+        </div>
+        <button id="risk-refresh-btn" class="btn btn-secondary" type="button" style="margin-top:16px;">Refresh Score</button>
+      </div>
+      <div class="card">
+        <div class="card-title">Contributing Factors</div>
+        <ul id="risk-page-reasons" style="padding-left:18px; font-size:13.5px; color:var(--color-text-muted); line-height:1.7;"></ul>
+      </div>
+    </div>
+
+    <div class="grid grid-3">
+      <div class="card stat-card"><span class="stat-label">Recent Glucose</span><span class="stat-value" style="font-size:20px;" id="risk-page-glucose">—</span></div>
+      <div class="card stat-card"><span class="stat-label">Recent Insulin</span><span class="stat-value" style="font-size:20px;" id="risk-page-insulin">—</span></div>
+      <div class="card stat-card"><span class="stat-label">Recent Meal</span><span class="stat-value" style="font-size:20px;" id="risk-page-meal">—</span></div>
+    </div>
+
+    <details class="card" style="margin-top:20px;">
+      <summary style="font-weight:700; padding:4px 0; cursor:pointer;">What does this risk score mean?</summary>
+      <div style="margin-top:12px; font-size:13.5px; color:var(--color-text-muted); line-height:1.75;">
+        <p><strong>LOW (0–27):</strong> No significant risk factors detected based on your recent data. Keep monitoring.</p>
+        <p><strong>MODERATE (28–54):</strong> Some risk factors are present. Monitor your glucose closely and follow your care plan.</p>
+        <p><strong>HIGH (55–100):</strong> Multiple risk factors detected. Please verify your glucose reading immediately and follow your personal diabetes care plan.</p>
+        <p style="margin-top:8px; font-size:12.5px;">This score uses a transparent, rule-based heuristic — not a clinical model. Factors considered: current glucose level, glucose trend, recent insulin relative to carbohydrate intake, physical activity, and time of day.</p>
+      </div>
+    </details>
+  </main>
+</div>
+<script type="module" src="js/risk-page.js"></script>
+</body>
+</html>

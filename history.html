@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="View your glucose, insulin, and meal history in GlucoGuard-T1D with time-window filters and trend charts." />
+<meta name="theme-color" content="#2563eb" />
+<title>History — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<noscript>GlucoGuard-T1D requires JavaScript. Please enable it in your browser.</noscript>
+<div class="app-shell">
+  <div id="app-nav"></div>
+  <main class="app-main">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">History</span>
+        <h1>Your History</h1>
+      </div>
+    </div>
+
+    <div class="chip-row">
+      <button class="chip chip-active" data-window="today" type="button">Today</button>
+      <button class="chip" data-window="7d" type="button">7 days</button>
+      <button class="chip" data-window="30d" type="button">30 days</button>
+      <button class="chip" data-window="all" type="button">All</button>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">Glucose Trend</div>
+      <div class="chart-wrap"><canvas id="history-chart"></canvas></div>
+    </div>
+
+    <div id="history-summary" class="card" style="margin-bottom:16px; display:none;"></div>
+
+    <div class="tab-row">
+      <button class="tab-btn tab-active" data-tab="glucose" type="button">Glucose</button>
+      <button class="tab-btn" data-tab="insulin" type="button">Insulin</button>
+      <button class="tab-btn" data-tab="meals" type="button">Meals</button>
+      <button class="tab-btn" data-tab="risk" type="button">Risk</button>
+    </div>
+
+    <div class="card">
+      <ul id="history-list"></ul>
+    </div>
+  </main>
+</div>
+<script type="module" src="js/history.js"></script>
+</body>
+</html>

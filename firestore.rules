@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// ============================================================
+//  GlucoGuard-T1D — Firestore Security Rules
+//  Principle: each user can only read and write their own data.
+//  All other access is denied by the catch-all rule at the bottom.
+// ============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ----------------------------------------------------------
+    //  User root document and all subcollections
+    //  Path:  /users/{uid}
+    //         /users/{uid}/glucose/{docId}
+    //         /users/{uid}/insulin/{docId}
+    //         /users/{uid}/meals/{docId}
+    //         /users/{uid}/scans/{docId}
+    //
+    //  Rule:  The authenticated user may only access documents
+    //         where their UID matches the {uid} segment.
+    // ----------------------------------------------------------
+    match /users/{uid} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == uid;
+
+      // Wildcard covers every subcollection at any depth
+      match /{subcollection}/{docId} {
+        allow read, write: if request.auth != null
+                           && request.auth.uid == uid;
+      }
+    }
+
+    // ----------------------------------------------------------
+    //  Deny everything else
+    //  Any document path not matched above is rejected.
+    // ----------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

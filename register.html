@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Create your free GlucoGuard-T1D account and start managing your Type 1 Diabetes with data-driven insights built for Indian diets." />
+<meta name="theme-color" content="#2563eb" />
+<title>Register — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+<noscript>GlucoGuard-T1D requires JavaScript. Please enable it in your browser.</noscript>
+<div class="auth-page">
+  <div class="auth-visual">
+    <div class="brand"><span class="brand-mark" style="background:rgba(255,255,255,0.15)">GG</span> GlucoGuard-T1D</div>
+    <div>
+      <h1>Create your account.</h1>
+      <p>Join GlucoGuard-T1D and start managing your Type 1 Diabetes with data-driven insights built for Indian diets.</p>
+    </div>
+    <p style="font-size:12.5px; opacity:.6;">Decision-support prototype — not a certified medical device.</p>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <h2>Create Account</h2>
+      <p class="sub">Fill in your details to get started — it only takes a moment.</p>
+
+      <form id="register-form" novalidate>
+        <div class="field">
+          <label for="register-name">Full name</label>
+          <input type="text" id="register-name" required autocomplete="name" placeholder="Your name" />
+        </div>
+        <div class="field">
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" required autocomplete="email" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label for="register-password">Password</label>
+          <div style="position:relative;">
+            <input type="password" id="register-password" required autocomplete="new-password"
+              placeholder="At least 8 characters" style="padding-right:44px;" />
+            <button type="button" id="toggle-password" aria-label="Show password"
+              style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--color-text-muted);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="register-confirm">Confirm password</label>
+          <div style="position:relative;">
+            <input type="password" id="register-confirm" required autocomplete="new-password"
+              placeholder="Repeat your password" style="padding-right:44px;" />
+            <button type="button" id="toggle-confirm" aria-label="Show confirm password"
+              style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--color-text-muted);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div id="register-error" class="field-error"></div>
+        <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+      </form>
+
+      <div class="auth-footer-link">Already have an account? <a href="login.html">Log in</a></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { registerUser, guardPage } from "./js/auth.js";
+  import { checkFirebaseAvailability } from "./js/app.js";
+  import { showToast, setButtonLoading, showInlineError, clearInlineError, friendlyAuthError } from "./js/ui.js";
+
+  guardPage(() => {}); // redirect logged-in users to dashboard
+
+  const form = document.getElementById("register-form");
+  const errorEl = document.getElementById("register-error");
+
+  // Show/hide password toggles
+  document.getElementById("toggle-password").addEventListener("click", () => {
+    const inp = document.getElementById("register-password");
+    inp.type = inp.type === "password" ? "text" : "password";
+  });
+  document.getElementById("toggle-confirm").addEventListener("click", () => {
+    const inp = document.getElementById("register-confirm");
+    inp.type = inp.type === "password" ? "text" : "password";
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    clearInlineError(errorEl);
+    if (!checkFirebaseAvailability()) return;
+
+    const name     = document.getElementById("register-name").value.trim();
+    const email    = document.getElementById("register-email").value.trim();
+    const password = document.getElementById("register-password").value;
+    const confirm  = document.getElementById("register-confirm").value;
+    const btn      = form.querySelector("button[type=submit]");
+
+    // Validation
+    if (!name)              { showInlineError(errorEl, "Please enter your full name."); return; }
+    if (!email)             { showInlineError(errorEl, "Please enter a valid email address."); return; }
+    if (password.length < 8){ showInlineError(errorEl, "Password must be at least 8 characters."); return; }
+    if (password !== confirm){ showInlineError(errorEl, "Passwords do not match."); return; }
+
+    setButtonLoading(btn, true, "Creating account…");
+    try {
+      await registerUser({ name, email, password });
+      window.location.href = "dashboard.html";
+    } catch (err) {
+      console.error(err);
+      showInlineError(errorEl, friendlyAuthError(err));
+    } finally {
+      setButtonLoading(btn, false);
+    }
+  });
+</script>
+</body>
+</html>

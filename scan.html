@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Scan food photos to estimate carbs with GlucoGuard-T1D." />
+<title>Scan Food — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+<noscript>
+  <div style="padding:16px; background:#fff3cd; border:1px solid #ffc107; text-align:center; font-family:sans-serif;">
+    ⚠️ GlucoGuard-T1D requires JavaScript to run. Please enable JavaScript in your browser settings.
+  </div>
+</noscript>
+<div class="app-shell">
+  <div id="app-nav"></div>
+  <main class="app-main">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">Scan</span>
+        <h1>Scan Food</h1>
+        <p>Upload a photo to get an AI food estimate — always verify before logging insulin.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-title">Upload Photo</div>
+        <label class="scan-dropzone" for="scan-file-input">
+          <div style="font-size:30px; margin-bottom:8px;">📷</div>
+          <div style="font-weight:600;">Drag &amp; drop or click to upload a food photo (JPG / PNG, max 8 MB)</div>
+          <div class="muted">JPG or PNG</div>
+        </label>
+        <input type="file" id="scan-file-input" accept="image/*" style="display:none;" />
+        <img id="scan-image-preview" class="scan-preview-image" alt="Food preview" />
+        <div id="scan-status" class="muted" style="text-align:center; margin-top:8px;"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Result</div>
+        <div id="scan-fallback" style="display:none;">
+          <div class="ai-disclaimer" id="scan-fallback-message"></div>
+          <button id="go-manual-search-btn" class="btn btn-secondary btn-block" type="button">Search Food Manually</button>
+        </div>
+        <div id="scan-predictions" style="display:none;"></div>
+        <div id="manual-search-link"></div>
+
+        <div class="divider"></div>
+        <div class="card-title" style="margin-bottom:6px;">Confirmed Items</div>
+        <ul id="confirmed-items"></ul>
+        <button id="save-scan-meal-btn" class="btn btn-primary btn-block" type="button" style="margin-top:14px;" disabled>Save Meal</button>
+      </div>
+    </div>
+
+    <p class="ai-disclaimer" style="margin-top:16px; text-align:center;">
+      ⚠️ AI food estimates are approximate. Always verify carbohydrate counts before making insulin decisions. Manual food search is always available.
+    </p>
+  </main>
+</div>
+<script type="module" src="js/scan-page.js"></script>
+</body>
+</html>

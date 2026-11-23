@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Your GlucoGuard-T1D dashboard — glucose trends, hypoglycemia risk score, today's carbs and insulin at a glance." />
+<meta name="theme-color" content="#2563eb" />
+<title>Dashboard — GlucoGuard-T1D</title>
+<link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/components.css" />
+<link rel="stylesheet" href="css/responsive.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<noscript>GlucoGuard-T1D requires JavaScript. Please enable it in your browser.</noscript>
+<div class="app-shell">
+  <div id="app-nav"></div>
+  <main class="app-main">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">Dashboard</span>
+        <h1>Hi <span id="greeting-name">there</span> 👋</h1>
+        <p>Here's how things look right now.</p>
+      </div>
+    </div>
+
+    <div id="high-risk-warning" class="high-risk-warning" style="display:none;">
+      <span style="font-size:22px;">⚠️</span>
+      <div>
+        <strong>HIGH RISK DETECTED</strong>
+        Please verify your glucose reading and follow your personal diabetes care plan. This is not a diagnosis.
+      </div>
+    </div>
+
+    <div class="quick-actions" style="margin-bottom:22px;">
+      <a href="add.html?tab=glucose" class="quick-action"><span class="qa-icon">🩸</span>Log Glucose</a>
+      <a href="add.html?tab=insulin" class="quick-action"><span class="qa-icon">💉</span>Log Insulin</a>
+      <a href="meals.html" class="quick-action"><span class="qa-icon">🍽️</span>Add Meal</a>
+      <a href="scan.html" class="quick-action"><span class="qa-icon">📷</span>Scan Food</a>
+      <a href="risk.html" class="quick-action"><span class="qa-icon">⚠️</span>View Risk</a>
+      <a href="history.html" class="quick-action"><span class="qa-icon">📈</span>View History</a>
+    </div>
+
+    <div class="grid grid-3" style="margin-bottom:20px;">
+      <div class="card glucose-hero stat-card">
+        <span class="stat-label">Current Glucose</span>
+        <span class="stat-value"><span id="current-glucose-value">—</span><span class="glucose-unit">mg/dL</span></span>
+        <span class="stat-sub" id="current-glucose-context">No readings yet</span>
+      </div>
+      <div class="card risk-card risk-low" id="risk-card">
+        <span class="stat-label" style="opacity:.85">Hypoglycemia Risk</span>
+        <div class="risk-level-label" id="risk-level">—</div>
+        <div class="risk-score-label" id="risk-score">Score: —</div>
+        <div class="risk-reason" id="risk-reason"></div>
+      </div>
+      <div class="grid" style="gap:20px;">
+        <div class="card stat-card"><span class="stat-label">Today's Carbs</span><span class="stat-value" id="stat-carbs-today">0g</span></div>
+        <div class="card stat-card"><span class="stat-label">Today's Insulin</span><span class="stat-value" id="stat-insulin-today">0u</span></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2" style="margin-bottom:20px;">
+      <div class="card">
+        <div class="card-title">Glucose Trend <a href="history.html" class="link">View history</a></div>
+        <div class="chart-wrap"><canvas id="glucose-trend-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Recent Glucose Readings <span class="muted" id="stat-readings-today"></span></div>
+        <ul id="recent-glucose-list"></ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Recent Meals <a href="meals.html" class="link">Add meal</a></div>
+      <ul id="recent-meals-list"></ul>
+    </div>
+  </main>
+</div>
+<script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

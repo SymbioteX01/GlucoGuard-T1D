@@ -1,0 +1,104 @@
+# ============================================================
+#  GlucoGuard-T1D — .gitignore
+#  Keep sensitive files and local tooling out of the repo.
+# ============================================================
+
+# ---------------------------
+# Firebase secrets & service accounts
+# ---------------------------
+# NEVER commit service-account keys or private credentials.
+service-account*.json
+*-credentials.json
+*-service-account.json
+google-services.json
+firebase-adminsdk*.json
+
+# Local firebase config override (use firebase-config.js for web config)
+firebase-config.local.js
+
+# Firebase CLI caches
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+.firebaserc.local
+ui-debug.log
+
+# ---------------------------
+# Environment variables
+# ---------------------------
+.env
+.env.local
+.env.*.local
+
+# ---------------------------
+# OS artefacts
+# ---------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# ---------------------------
+# IDE / Editor folders
+# ---------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*.suo
+*.user
+.project
+.classpath
+.c9/
+*.launch
+
+# ---------------------------
+# Node / Package managers
+# (project is vanilla JS — only here for tooling)
+# ---------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# ---------------------------
+# Build / dist artefacts
+# ---------------------------
+dist/
+build/
+out/
+
+# ---------------------------
+# Log & temp files
+# ---------------------------
+*.log
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# ---------------------------
+# Certificates & keys
+# ---------------------------
+*.pem
+*.key
+*.p12
+*.pfx
+*.cert
+*.cer
+
+# ---------------------------
+# Archives (keep source, skip generated zips)
+# ---------------------------
+*.zip
+*.tar.gz
+*.rar
+
+# ---------------------------
+# Testing / coverage
+# ---------------------------
+coverage/
+.nyc_output/
+test-results/
